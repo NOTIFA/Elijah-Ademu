@@ -6,10 +6,6 @@
   --header-height: 3rem;
   --font-semi: 600;
 
-  /*===== Colores =====*/
-  /*Purple 260 - Red 355 - Blue 224 - Pink 340*/
-  /* HSL color mode */
-
   --hue-color: 240;
   --first-color: hsl(var(--hue-color), 89%, 60%);
   --second-color: hsl(var(--hue-color), 56%, 12%);
@@ -351,34 +347,57 @@ img {
 .work__container {
   row-gap: 2rem;
 }
-.work__img {
+/* .work__img1 {
   /* box-shadow: 0px 10px 15px rgba(14, 36, 49, 0.15); */
-  border-radius: 0.5rem;
+  /* border-radius: 0.5rem; */
+  /* overflow: hidden; */
+  /* filter: blur(2px); */
+/* } */
+
+.work__img1 {
+  position: relative;
+  display: block;
   overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.work__img1 img {
+  width: 100%;
+  display: block;
+  filter: brightness(0.3);
+  opacity: 10;
+  background-color: #000000;
 }
 
 .work-font {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
   font-size: 1.5rem;
-  font-weight: var(--font-semi);
-  color: var(--first-color);
-  text-align: center;
-  margin-top: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  z-index: 2;
+  text-align: left;
+}
+.work-p {
+  position: absolute;
+  top: 3rem;
+  left: 1rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #ffffff9f;
+  margin: 0;
+  z-index: 2;
+  text-align: left;
 }
 
-.work__img1 {
-  /* box-shadow: 0px 10px 15px rgba(14, 36, 49, 0.15);
-  border-radius: 0.5rem; */
-  overflow: hidden;
-}
-.work__img img {
-  transition: 1s;
-}
-.work__img img:hover {
+/* .work__img1:hover img {
   transform: scale(1.1);
-  
-}
+  transition: 1s;
+} */
 
-/* ===== CONTACT =====*/
+/* ============================== CONTACT =========================*/
 .contact__input {
   width: 100%;
   font-size: var(--normal-font-size);
