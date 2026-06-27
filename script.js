@@ -1,104 +1,135 @@
-/*===== MENU SHOW =====*/ 
-const showMenu = (toggleId, navId) =>{
-    const toggle = document.getElementById(toggleId),
-    nav = document.getElementById(navId)
+(() => {
+  "use strict";
 
-    if(toggle && nav){
-        toggle.addEventListener('click', ()=>{
-            nav.classList.toggle('show')
-        })
+  /* ====================== DISABLE RIGHT-CLICK  ============================================================ */
+  document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+  /* ================= DISABLE COMMON DEVTOOLS SHORTCUTS ================================== */
+  document.addEventListener("keydown", (e) => {
+    const blocked =
+      e.key === "F12" ||
+      (e.ctrlKey && e.shiftKey && ["I", "J", "C", "U"].includes(e.key)) ||
+      (e.ctrlKey && e.key === "U");
+
+    if (blocked) e.preventDefault();
+  });
+
+  /* ======================= DEVTOOLS DETECTION — reload if opened ============================= */
+  const devToolsCheck = () => {
+    const threshold = 160;
+    if (
+      window.outerWidth - window.innerWidth > threshold ||
+      window.outerHeight - window.innerHeight > threshold
+    ) {
+      document.body.innerHTML = "";
+      window.location.reload();
     }
-}
-showMenu('nav-toggle','nav-menu',);
+  };
+  setInterval(devToolsCheck, 1000);
 
-/*==================== REMOVE MENU MOBILE ====================*/
-const navLink = document.querySelectorAll('.nav__link')
+  /* ============================================================
+     MENU TOGGLE
+  ============================================================ */
+  const navToggle = document.getElementById("nav-toggle");
+  const navMenu   = document.getElementById("nav-menu");
 
-function linkAction(){
-    const navMenu = document.getElementById('nav-menu')
-    // When we click on each nav__link, we remove the show-menu class
-    navMenu.classList.remove('show')
-}
-navLink.forEach(n => n.addEventListener('click', linkAction))
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", () => {
+      navMenu.classList.toggle("show");
+    });
+  }
 
-/*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
-const sections = document.querySelectorAll('section[id]')
+  /* ============================================================
+     CLOSE MENU ON NAV LINK CLICK (mobile)
+  ============================================================ */
+  document.querySelectorAll(".nav__link").forEach((link) => {
+    link.addEventListener("click", () => {
+      navMenu?.classList.remove("show");
+    });
+  });
 
-const scrollActive = () =>{
-    const scrollDown = window.scrollY
+  /* ============================================================
+     ACTIVE NAV LINK ON SCROLL
+  ============================================================ */
+  const sections = document.querySelectorAll("section[id]");
 
-  sections.forEach(current =>{
-        const sectionHeight = current.offsetHeight,
-              sectionTop = current.offsetTop - 58,
-              sectionId = current.getAttribute('id'),
-              sectionsClass = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
-        
-        if(scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight){
-            sectionsClass.classList.add('active-link')
-        }else{
-            sectionsClass.classList.remove('active-link')
-        }                                                    
-    })
-}
-window.addEventListener('scroll', scrollActive)
+  const highlightNavLink = () => {
+    const scrollY = window.scrollY;
 
-/*===== SCROLL REVEAL ANIMATION =====*/
-const sr = ScrollReveal({
-    origin: 'top',
-    distance: '60px',
-    duration: 2000,
-    delay: 200,
-//     reset: true
-});
+    sections.forEach((section) => {
+      const sectionTop    = section.offsetTop - 58;
+      const sectionHeight = section.offsetHeight;
+      const id            = section.getAttribute("id");
+      const link          = document.querySelector(`.nav__menu a[href*="${id}"]`);
 
-sr.reveal('.home__data, .about__img, .skills__subtitle, .skills__text',{}); 
-sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img',{delay: 400}); 
-sr.reveal('.home__social-icon',{ interval: 200});
-sr.reveal('.skills__data, .work__img, .contact__input',{interval: 200}); 
+      if (!link) return;
 
-// EmailJS Integration
-// emailjs.init("YOUR_USER_ID");
+      if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+        link.classList.add("active-link");
+      } else {
+        link.classList.remove("active-link");
+      }
+    });
+  };
 
-// const form = document.getElementById("contact");
+  window.addEventListener("scroll", highlightNavLink);
 
-// form.addEventListener("submit", function (e) {
-//   e.preventDefault();
-
-//   emailjs.sendForm(
-//     "service_iokcd6h",
-//     "template_fem2dxq",
-//     this
-//   ).then(() => {
-//     alert("Message sent successfully!");
-//     form.reset();
-//   }).catch(() => {
-//     alert("Failed to send message.");
-//   });
-// });
-
-const form = document.getElementById("contact-form");
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const formData = new FormData(form);
-
-  try {
-    const response = await fetch(form.action, {
-      method: "POST",
-      body: formData,
-      headers: {
-        Accept: "application/json",
-      },
+  /* ============================================================
+     SCROLL REVEAL
+  ============================================================ */
+  if (typeof ScrollReveal !== "undefined") {
+    const sr = ScrollReveal({
+      origin:   "top",
+      distance: "60px",
+      duration: 2000,
+      delay:    200,
     });
 
-    if (response.ok) {
-      alert("Message sent successfully!");
-      form.reset();
-    } else {
-      alert("Oops! Something went wrong.");
-    }
-  } catch (error) {
-    alert("Network error. Try again later.");
+    sr.reveal(".home__data, .about__img, .skills__subtitle, .skills__text");
+    sr.reveal(".home__img, .about__subtitle, .about__text, .skills__img", { delay: 400 });
+    sr.reveal(".home__social-icon", { interval: 200 });
+    sr.reveal(".skills__data, .work__img1, .contact__input",  { interval: 200 });
   }
-});
+
+  /* ============================================================
+     CONTACT FORM — Formspree
+  ============================================================ */
+  const form = document.getElementById("contact-form");
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const btn = form.querySelector("button[type='submit']");
+      const originalText = btn?.textContent ?? "Send";
+
+      if (btn) {
+        btn.disabled     = true;
+        btn.textContent  = "Sending…";
+      }
+
+      try {
+        const response = await fetch(form.action, {
+          method:  "POST",
+          body:    new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+
+        if (response.ok) {
+          alert("Message sent successfully! I'll get back to you soon.");
+          form.reset();
+        } else {
+          alert("Oops! Something went wrong. Please try again.");
+        }
+      } catch {
+        alert("Network error. Check your connection and try again.");
+      } finally {
+        if (btn) {
+          btn.disabled    = false;
+          btn.textContent = originalText;
+        }
+      }
+    });
+  }
+
+})();

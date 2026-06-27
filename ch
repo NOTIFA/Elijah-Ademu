@@ -129,11 +129,44 @@ img {
     position: fixed;
     top: var(--header-height);
     right: -100%;
-    width: 50%;
+    width: 70%;
     height: 100%;
-    padding: 2rem;
+    padding: 2.5rem 1.5rem;
     background-color: var(--second-color);
-    transition: 1s;
+    transition: .4s ease;
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
+    z-index: var(--z-fixed);
+  }
+  .nav__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .nav__item {
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .nav__link {
+    display: block;
+    padding: 1rem 0.5rem;
+    font-size: 1rem;
+    color: #fff;
+    letter-spacing: 0.03em;
+  }
+  .nav__link:hover {
+    color: var(--first-color);
+    padding-left: 1rem;
+    transition: all 0.2s ease;
+  }
+  .nav__link:hover::after {
+    display: none;
+  }
+  .active-link {
+    color: var(--first-color);
+  }
+  .active-link::after {
+    display: none;
   }
 }
 .nav__item {
@@ -243,7 +276,6 @@ img {
 }
 .button:hover {
   box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
-  /* font-size: 1.2rem; */
   background-color: var(--second-color);
 }
 
@@ -259,13 +291,6 @@ img {
 .about__img {
   justify-self: center;
 }
-
-.side__img {
-  width: 300rem;
-  border-radius: 0.5rem;
-  /* size: 100rem; */
-}
-
 .about__img img {
   width: 200px;
   border-radius: 0.5rem;
@@ -330,16 +355,16 @@ img {
   width: 85%;
 }
 
-.skills__vue {
-  width: 90%;
+.skills__keyboard {
+  width: 100%;
 }
 
 .skills__gaming {
   width: 95%;
 }
 
-.skills__tailwind {
-  width: 80%;
+.skills__DTCJ {
+  width: 100%;
 }
 
 .skills__skating {
@@ -354,12 +379,6 @@ img {
 .work__container {
   row-gap: 1rem;
 }
-/* .work__img1 {
-  /* box-shadow: 0px 10px 15px rgba(14, 36, 49, 0.15); */
-  /* border-radius: 0.5rem; */
-  /* overflow: hidden; */
-  /* filter: blur(2px); */
-/* } */
 
 .work__img1 {
   position: relative;
@@ -379,9 +398,9 @@ img {
 .work-font {
   position: absolute;
   top: 5rem;
-  left: 8rem;
-  font-size: 1.7rem;
-  font-weight: 800;
+  left: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #fff;
   margin: 0;
   z-index: 2;
@@ -390,7 +409,7 @@ img {
 .work-p {
   position: absolute;
   top: 7.2rem;
-  left: 8rem;
+  left: 1rem;
   font-size: 1.2rem;
   font-weight: 400;
   color: #ffffff9f;
@@ -398,11 +417,6 @@ img {
   z-index: 2;
   text-align: left;
 }
-
-/* .work__img1:hover img {
-  transform: scale(1.1);
-  transition: 1s;
-} */
 
 /* ============================== CONTACT =========================*/
 .contact__input {
@@ -449,12 +463,102 @@ img {
 }
 
 /* ===== MEDIA QUERIES=====*/
+
+/* --- 320px (smallest phones e.g. iPhone SE 1st gen) --- */
 @media screen and (max-width: 320px) {
+  .nav__menu {
+    width: 100%;
+  }
+  .nav__logo {
+    font-size: 1.2rem;
+  }
+  .nav__toggle {
+    font-size: 1.2rem;
+  }
   .home {
     row-gap: 2rem;
+    padding: 3rem 0 4rem;
+  }
+  .home__title {
+    font-size: 1.5rem;
+  }
+  .home__img {
+    width: 180px;
+  }
+  .button {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.8rem;
+  }
+  .work-font {
+    font-size: 1rem;
+    top: 3rem;
+    left: 0.8rem;
+  }
+  .work-p {
+    font-size: 0.8rem;
+    top: 4.5rem;
+    left: 0.8rem;
+  }
+}
+
+/* --- 375px (iPhone SE 2nd/3rd gen, iPhone 6/7/8) --- */
+@media screen and (min-width: 321px) and (max-width: 375px) {
+  .nav__menu {
+    width: 80%;
+  }
+  .nav__logo {
+    font-size: 1.3rem;
+  }
+  .home {
+    row-gap: 2.5rem;
+    padding: 3.5rem 0 4rem;
+  }
+  .home__title {
+    font-size: 1.75rem;
   }
   .home__img {
     width: 200px;
+  }
+  .button {
+    padding: 0.65rem 1.8rem;
+    font-size: 0.85rem;
+  }
+  .work-font {
+    font-size: 1.1rem;
+    top: 3.5rem;
+    left: 1rem;
+  }
+  .work-p {
+    font-size: 0.85rem;
+    top: 5rem;
+    left: 1rem;
+  }
+}
+
+/* --- 425px (large mobile e.g. iPhone Pro Max, Galaxy S) --- */
+@media screen and (min-width: 376px) and (max-width: 425px) {
+  .nav__menu {
+    width: 75%;
+  }
+  .home {
+    row-gap: 3rem;
+    padding: 4rem 0 4.5rem;
+  }
+  .home__title {
+    font-size: 1.9rem;
+  }
+  .home__img {
+    width: 230px;
+  }
+  .work-font {
+    font-size: 1.2rem;
+    top: 4rem;
+    left: 1rem;
+  }
+  .work-p {
+    font-size: 0.9rem;
+    top: 5.8rem;
+    left: 1rem;
   }
 }
 @media screen and (min-width: 576px) {
@@ -564,5 +668,9 @@ img {
   }
   .home__img {
     width: 450px;
+  }
+  .work__container {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 2rem;
   }
 }
