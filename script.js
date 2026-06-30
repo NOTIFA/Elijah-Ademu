@@ -14,7 +14,7 @@
     if (blocked) e.preventDefault();
   });
 
-  /* ======================= DEVTOOLS DETECTION — reload if opened ============================= */
+  /* ======================= DEVTOOLS DETECTION ============================= */
   const devToolsCheck = () => {
     const threshold = 160;
     if (
@@ -27,9 +27,7 @@
   };
   setInterval(devToolsCheck, 1000);
 
-  /* ============================================================
-     MENU TOGGLE
-  ============================================================ */
+  /* ================================= TOGGLE =================================== */
   const navToggle = document.getElementById("nav-toggle");
   const navMenu   = document.getElementById("nav-menu");
 
@@ -39,9 +37,7 @@
     });
   }
 
-  /* ============================================================
-     CLOSE MENU ON NAV LINK CLICK (mobile)
-  ============================================================ */
+  /* ============================ CLOSE MENU ON NAV LINK CLICK (mobile) ======================= */
   document.querySelectorAll(".nav__link").forEach((link) => {
     link.addEventListener("click", () => {
       navMenu?.classList.remove("show");
